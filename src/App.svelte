@@ -5,6 +5,9 @@
   let time = $state(0);
   let temp = $state(0);
   let f0Calc = $derived(Math.pow(10,(temp-tref)/z) * time);
+  let tempCalc = $derived(z * (Math.log10(f0)-Math.log10(time))+tref);
+  let timeCalc = $derived(f0/(Math.pow(10,(temp-tref)/z)));
+
 
   const parameters = [
 		{ label: 'F0', value: 1, desc:"F0 ( dalam menit) adalah waktu paparan yang setara pada suhu 121,11°C dari waktu paparan aktual pada suhu yang bervariasi" },
@@ -61,14 +64,35 @@
             <input id="2" type="number" min="0.0" bind:value={time} class="border border-blue-500 flex-1" />
           </div>
           <div class="flex items-center space-x-4 my-1">
-            <label for="3" class="w-64">T(Temp. proses dalam oC)</label>
+            <label for="3" class="w-64">T(Temp. minimum proses dalam oC)</label>
             <input id="3" type="number" min="0.0" bind:value={temp} class="border border-blue-500 flex-1" />
           </div>
-          <h3 class="text-green-500 mt-2">Hasil Perhitungan F0 = {f0Calc} menit</h3>
-          <h3 class="text-green-500 mt-2">Dibulatkan menjadi {Math.round(f0Calc)} menit</h3>
+          <h3 class="text-green-500 mt-2 font-[700]">Hasil Perhitungan F0 = {f0Calc} menit</h3>
+          <h3 class="text-green-500 mt-2 font-[700]">Dibulatkan menjadi {Math.round(f0Calc)} menit</h3>
+        {:else if selected == 2}
+        <div class="flex items-center space-x-4 my-1">
+          <label for="3" class="w-64">t( waktu kontak dalam menit)</label>
+          <input id="3" type="number" min="0.0" bind:value={time} class="border border-blue-500 flex-1" />
+          </div>
+          <div class="flex items-center space-x-4 my-1">
+            <label for="1" class="w-64">F0(dalam menit)</label>
+            <input id="1" type="number" min="0.0" bind:value={f0} class="border border-blue-500 flex-1" />
+          </div>
+          <h3 class="text-green-500  mt-2 font-[700]">Hasil Perhitungan T minimum = {tempCalc} oC</h3>
+          <h3 class="text-green-500 font-[700] mt-2">Dibulatkan menjadi {Math.round(tempCalc)} oC</h3>
+        {:else if selected == 3}
+        <div class="flex items-center space-x-4 my-1">
+          <label for="2" class="w-64">T(Temp. minimum proses dalam oC)</label>
+          <input id="2" type="number" min="0.0" bind:value={temp} class="border border-blue-500 flex-1" />
+          </div>
+          <div class="flex items-center space-x-4 my-1">
+            <label for="1" class="w-64">F0(dalam menit)</label>
+            <input id="1" type="number" min="0.0" bind:value={f0} class="border border-blue-500 flex-1" />
+          </div>
+          <h3 class="text-green-500  mt-2 font-[700]">Hasil Perhitungan t (waktu kontak) = {timeCalc} menit ({timeCalc*60} detik)</h3>
+          <h3 class="text-green-500 font-[700] mt-2">Dibulatkan menjadi {Math.round(timeCalc)} menit ({Math.round(timeCalc*60)} detik)</h3>
         {/if}
       </div>    
-        
     </div>
     
 
